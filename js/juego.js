@@ -129,14 +129,9 @@ Juego.buclePrincipal = function() {
 
   // Con update se actualiza la logica del juego, tanto ataques como movimientos
   this.update();
-  // Funcion que dibuja por cada fotograma a los objetos en pantalla.
-  if (this.terminoJuego()) {
-    this.dibujarFondo();
-  } else if (this.ganoJuego()) {
-    this.dibujarFondo();
-  } else {
+
   this.dibujar();
-  }
+  // }
   // Esto es una forma de llamar a la funcion Juego.buclePrincipal() repetidas veces
   window.requestAnimationFrame(this.buclePrincipal.bind(this));
 };
@@ -154,26 +149,26 @@ Juego.capturarMovimiento = function(tecla) {
 
   // El movimiento esta determinado por la velocidad del jugador
   if (tecla == 'izq') {
-    Jugador.girar(15, 30, 'imagenes/auto_rojo_izquierda.png');
+    this.jugador.girar(15, 30, 'imagenes/auto_rojo_izquierda.png');
     movX = -velocidad;
   }
   if (tecla == 'arriba') {
-    Jugador.girar(30, 15, 'imagenes/auto_rojo_arriba.png');
+    this.jugador.girar(30, 15, 'imagenes/auto_rojo_arriba.png');
     movY = -velocidad;
   }
   if (tecla == 'der') {
-    Jugador.girar(15, 30, 'imagenes/auto_rojo_derecha.png');
+    this.jugador.girar(15, 30, 'imagenes/auto_rojo_derecha.png');
     movX = velocidad;
   }
   if (tecla == 'abajo') {
-    Jugador.girar(30, 15, 'imagenes/auto_rojo_abajo.png');
+    this.jugador.girar(30, 15, 'imagenes/auto_rojo_abajo.png');
     movY = velocidad;
   }
 
   // Si se puede mover hacia esa posicion hay que hacer efectivo este movimiento
   if (this.chequearColisiones(movX + this.jugador.x, movY + this.jugador.y)) {
     // Aca está la logica para mover al jugador invocando sus metodos
-    Jugador.mover(movX, movY, tecla);
+    this.jugador.mover(movX, movY, tecla);
   }
 };
 
@@ -184,7 +179,7 @@ Juego.dibujar = function() {
   Dibujante.borrarAreaDeJuego();
   //Se pinta la imagen de fondo segun el estado del juego
   this.dibujarFondo();
-
+  if(this.terminoJuego() || this.ganoJuego()) return;
   // Dibuja la línea de llegada
   Dibujante.dibujarRectangulo("#FEDB45", 760, 509, 126, 50);
 
